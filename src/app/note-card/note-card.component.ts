@@ -1,4 +1,11 @@
-import { Component, ViewChild, OnInit, ElementRef, Renderer2, Input } from '@angular/core';
+import {
+  Component,
+  ViewChild,
+  OnInit,
+  ElementRef,
+  Renderer2,
+  Input,
+} from '@angular/core';
 
 @Component({
   selector: 'app-note-card',
@@ -9,20 +16,20 @@ export class NoteCardComponent implements OnInit {
   @Input() title!: string;
   @Input() body!: string;
 
-  @ViewChild('truncator') truncator!: ElementRef<HTMLElement>;
-  @ViewChild('bodyText') bodyText!: ElementRef<HTMLElement>;
+  @ViewChild('truncator', { static: true })
+  truncator!: ElementRef<HTMLElement>;
+  @ViewChild('bodyText', { static: true }) bodyText!: ElementRef<HTMLElement>;
 
-  constructor( private renderer: Renderer2) {}
+  constructor(private renderer: Renderer2) {}
 
   ngOnInit() {
-
-    let style = window.getComputedStyle(this.bodyText.nativeElement, null); 
+    let style = window.getComputedStyle(this.bodyText.nativeElement, null);
     let viewableHeight = parseInt(style.getPropertyValue('height'), 10);
 
-    if(this.bodyText.nativeElement.scrollHeight > viewableHeight) {
+    if (this.bodyText.nativeElement.scrollHeight > viewableHeight) {
       this.renderer.setStyle(this.truncator.nativeElement, 'display', 'block');
     } else {
-      this.renderer.setStyle(this.truncator.nativeElement, 'display', 'none' );
+      this.renderer.setStyle(this.truncator.nativeElement, 'display', 'none');
     }
   }
 }
